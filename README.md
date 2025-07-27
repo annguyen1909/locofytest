@@ -82,4 +82,8 @@ python3 evaluate_tags.py --gt ground_truth/ --pred predictions/
 - Radio
 - Dropdown
 
+## Note About Data
+- The `ground_truth/` and `predictions/` folders already contain 100 JSON files each for demonstration and evaluation.
+- If you want to test with your own images and results, simply delete all files in these folders and add your new data.
+
 
