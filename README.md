@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UI Element Detection Tool
 
-## Getting Started
+## Overview
+A web-based tool for labeling UI elements in screenshots and evaluating AI model predictions. Built with Next.js (frontend) and FastAPI (backend).
 
-First, run the development server:
+## Features
+- Upload UI screenshots
+- Draw bounding boxes and assign tags (Button, Input, Radio, Dropdown)
+- Save labeled results as JSON
+- AI-powered detection using OpenAI GPT-4 Vision
+- Evaluate AI predictions against ground truth
 
+## Requirements
+- Node.js 18+
+- Python 3.9+
+- OpenAI API Key
+
+## Setup
+
+1. **Clone the repository**
+2. **Set up Python environment**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+3. **Install Python dependencies**
+   ```bash
+   pip install fastapi uvicorn openai python-dotenv pillow python-multipart
+   ```
+4. **Install Node.js dependencies**
+   ```bash
+   npm install
+   ```
+5. **Add your OpenAI API key**
+   ```bash
+   echo "OPENAI_API_KEY=your_openai_api_key_here" > .env
+   ```
+
+## Running the App
+
+1. **Start the backend**
+   ```bash
+   python3 -m uvicorn app:app --reload
+   ```
+2. **Start the frontend** (in a new terminal)
+   ```bash
+   npm run dev
+   ```
+3. **Go to the labeling tool**
+   [http://localhost:3000/labeler](http://localhost:3000/labeler)
+
+## Usage
+
+### Manual Labeling
+- Upload an image
+- Select element type
+- Draw bounding boxes
+- Save as JSON (at `ground_truth/`)
+
+### AI Detection
+- Upload an image
+- Click "AI Auto-Detect"
+- Download results as JSON (at `predictions/`)
+
+### Evaluation
+Compare AI predictions with ground truth:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+python3 evaluate_tags.py --gt ground_truth/ --pred predictions/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
+- `app.py` — FastAPI backend
+- `evaluate_tags.py` — Evaluation script
+- `src/app/labeler/page.tsx` — Frontend labeling interface
+- `src/app/api/predict/route.ts` — API route for AI detection
+- `ground_truth/` — Ground truth JSON files
+- `predictions/` — AI prediction JSON files
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Supported Tags
+- Button
+- Input
+- Radio
+- Dropdown
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
